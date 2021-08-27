@@ -47,5 +47,5 @@ jobs:
           ls -l
           mkdir build
           cd build
-          cmake ..
-          make
+          cmake -DCMAKE_BUILD_TYPE=Release -DWITH_PYTHON=OFF -DWITH_MKL=ON -DWITH_MKLDNN=OFF -DWITH_GPU=OFF -DWITH_FLUID_ONLY=ON ..
+          make -j16 -i CFLAGS="... -Wno-error" CXXFLAGS="... -Wno-error"
