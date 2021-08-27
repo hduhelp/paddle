@@ -1,0 +1,51 @@
+name: build2
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - "**.md"
+      - "**.txt"
+      - "mkdocs.yaml"
+      - ".readthedocs.yaml"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+      - "**.txt"
+      - "mkdocs.yaml"
+      - ".readthedocs.yaml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.9
+        with:
+          cmake-version: '3.3'
+
+      - name: install dependencies
+        run: |
+          sudo apt install -y make automake bison
+
+      - name: set gcc
+        run: |
+          export CFLAGS="-Wno-error"
+          export CXXFLAGS="-Wno-error"
+          echo $CFLAGS
+          echo $CXXFLAGS
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: build
+        run: |
+          ls -l
+          mkdir build
+          cd build
+          cmake ..
+          make
